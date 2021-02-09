@@ -1,5 +1,5 @@
 {
   "version": "0.0.1",
-  "info": "+ 在线更新功能\n + 直播间能发送自定义弹幕和创建了快捷弹幕栏\n",
-  "website": "https://github.com/ilrua/BBQ/blob/main/bbq.js"
+  "info": "默认的BBQ载入器",
+  "website": "*"
 }
