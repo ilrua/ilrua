@@ -1,8 +1,79 @@
 console.log('%c Im %c BBQ %c V0.0.1','color:#f00;','font-size:20px;','color:white;background:black;')//特效输出
 console.log("[KERNEL]BBQ已启动 载入核心代码中")
 var chk = "chk"
-//更改版本的时候记得全局搜索bbqver
+var news = "news"
+//更改载入器版本的时候记得全局搜索bbqver
 //---kernel code---
+chkupdt()
+function chkupdt(){
+    var bbqver = 001
+        var url = "https://ilrua.github.io/ilrua/bbq/info.json"//更新地址
+            var request = new XMLHttpRequest();
+            request.open("get", url);/*设置请求方法与路径*/
+            request.send(null);/*不发送数据到服务器*/
+            request.onload = function () {/*XHR对象获取到返回信息后执行*/
+                if (request.status == 200) {/*返回状态为200，即为数据获取成功*/
+                    var json = JSON.parse(request.responseText);
+                    for(var i=0;i<json.length;i++){
+                    	console.log(json[i].name);
+                    }
+                    var json = JSON.parse(request.responseText);
+                    console.log("[UPDATE]已获取更新信息");
+                }
+                    //是的 因为特性 我们只能在这里进行判断。
+                    var version = json.version
+                    var info = json.info
+                    var website = json.website
+                    var locver=version.replace(".","");
+                    if(bbqver < locver){
+                        console.log("[CHK]有新的BBQ载入器更新。键入update(chk)检查")
+                    } else {
+                        console.log("[CHK]您的BB载入器是最新的。请保持")
+                    }
+            }
+}
+
+function bv2av(vid,mode){
+    //BV2AV函数除判断外的所有代码均来自来自 https://www.zhihu.com/question/381784377/answer/1099438784。（知乎或许不是FW
+var table = "fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF",
+  tr = new Object();
+for (var i = 0; i < 58; i++) {
+  tr[table[i]] = i;
+}
+var s = [11, 10, 3, 8, 4, 6],
+  xor = 177451812,
+  add = 8728348608;
+
+if (mode == "av"){
+    var avid = dec(vid);
+    console.log("[B2A]已获取到AVID: "+avid);
+    return avid;
+} else if(mode == "bv"){
+    var bvid = enc(vid);
+    console.log("[B2A]已获取到BVID: "+bvid);
+    return bvid;
+} else {
+    console.log("[B2A]变量MODE的值必须在av与bv其一");
+    return false;
+}
+function dec(x) {
+  var r = 0;
+  for (var i = 0; i < 6; i++) {
+    r += tr[x[s[i]]] * 58 ** i;
+  }
+  return (r - add) ^ xor;
+}
+
+function enc(x) {
+  x = (x ^ xor) + add;
+  r = "BV1  4 1 7  ".split("");
+  for (var i = 0; i < 6; i++) {
+    r[s[i]] = table[Math.floor(x / 58 ** i) % 58];
+  }
+  return r.join("");
+}
+}
+
 function update(text){
     //请注意更改此版本号
     var bbqver = 001
@@ -29,79 +100,46 @@ function update(text){
                     var website = json.website
                     var locver=version.replace(".","");
                     if(bbqver < locver){
-                        console.log("[CHK]有新的更新")
+                        console.log("[CHK]有新的BBQ载入器更新")
                         console.log("[CHK]当前版本" + bbqver)
                         console.log("[CHK]新版本: " + version)
-                        console.log("[CHK]更新内容")
+                        console.log("[CHK]载入器更新内容")
                         console.log(info)
                         console.log("[CHK]下载地址: " + website)
                     } else {
-                        console.log("[CHK]您的BBQ是最新的。请保持")
+                        console.log("[CHK]您的BB载入器是最新的。请保持")
                         console.log("[CHK]当前版本" + bbqver)
-                        console.log("[CHK]更新内容")
+                        console.log("[CHK]载入器更新内容")
                         console.log(info)
                         console.log("[CHK]下载地址: " + website)
                     }
             }
+    } else if(text.toLowerCase() == "news"){
+        var bbqver = 001
+        var url = "https://ilrua.github.io/ilrua/bbq/updt.json"//更新地址
+            var request = new XMLHttpRequest();
+            request.open("get", url);/*设置请求方法与路径*/
+            request.send(null);/*不发送数据到服务器*/
+            request.onload = function () {/*XHR对象获取到返回信息后执行*/
+                if (request.status == 200) {/*返回状态为200，即为数据获取成功*/
+                    var json = JSON.parse(request.responseText);
+                    for(var i=0;i<json.length;i++){
+                    	console.log(json[i].name);
+                    }
+                    var json = JSON.parse(request.responseText);
+                    console.log("[UPDATE]已获取更新信息");
+                }
+                    //是的 因为特性 我们只能在这里进行判断。
+                    var version = json.version
+                    var info = json.info
+                    console.log("[CHK]BBQ云上版本: " + version)
+                    console.log("[CHK]BBQ更新内容: ")
+                    console.log(info)
+                    }
     } else {
-    console.log("[UPDATE]错误的函数")
+        console.log("[UPDATE]错误的函数")
     }
 }
-/*
-var headpic = kergc("headpicadd")
-if (headpic) {
-    var picbg = document.getElementsByClassName("fixed-bg");
-    picbg.style.background = 'url('+headpic+');'
-} else {
-    console.log("[KERNEL] 未设置背景")
-}
-function kergc(ckname){
-console.log("[K-GC]正在获取Cookie")
-        var cookieName = ckname;
-        var cookieValue = null;//返回cookie的value值
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');//将获得的所有cookie切割成数组
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i];//得到某下标的cookies数组
-                if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {//如果存在该cookie的话就将cookie的值拿出来
-                    cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
-                    break
-                }
-            }
-        }
-        if (cookieValue != "" && cookieValue != null) {//如果存在指定的cookie值
-            console.log("[GC]已获取到用户Cookie 值为 " + cookieValue)
-            return cookieValue;
-        } else {//如果cookie的值是空
-            console.error("[GC]未获取到用户Cookie 值为 " + cookieValue)
-        }
-}
-function sett(varb,text){
-    var url = window.location.hostname//检查域名
-    if(url=="t.bilibili.com") {
-        //str.toLowerCase()全部转换到小写
-        if(varb.toLowerCase()=="shp") {
-            if(text){
-                if(text == "null"){
-                //重置
-                document.cookie = "headpicadd=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                } else {
-                var headpicadd = text
-                document.cookie = "headpicadd="+headpicadd;
-                console.log("[ST]已设置背景图片地址为"+headpicadd+'有没有把所有的"/"符号换成"\"')
-                }
-            } else {
-                console.error("[ST]错误: 未填写文件地址")
-            }
-        } else {
-            console.error('[ST]错误: ' + varb + ' 无法被处理')
-        }
-    } else {
-        console.log("[ST]动态页面才可以调用此函数")
-    }
-}
-因为发生未知错误所以此功能暂时禁用
-*/
 //---kernel code end---
 console.log("[KERNEL]BBQ已启动 已载入核心代码中")
 var text = "现在没有消息"
@@ -124,6 +162,8 @@ var id8 = "left8"
 var word8 = "直播间好卡"
     //'use strict';
     //萌新友好模式：开
+xurl = window.location.href; 
+var link2 = xurl.substring(0,30);
 var url = window.location.hostname//检查域名
 if (url=="live.bilibili.com"){
     console.log("[KERNEL]在直播页面上启动了")
@@ -279,6 +319,66 @@ if (url=="live.bilibili.com"){
     var p='<p id="bbqtag">您正在使用BBQ,nya~</p>'
     $(table).append(p)//创建BBQ
     }
+} else if(link2=="https://www.bilibili.com/video") {
+    console.log("[KERNEL]在视频页面上启动了"+link2)
+    setTimeout("createPinel()",2000)
+    var cp = "createPinel"
+    function createPinel(){
+    //一键三连
+    var head = document.getElementsByTagName("head")
+    var ops = document.getElementsByClassName("ops") 
+    //var ops = document.getElementsByTagName("body")
+    var css3style = '<style id="likevidcss">.btn3go{width: 50px;height: 50px;border-radius:50%;background-color: #92dae8;border: 1px solid #84bec9;position:absolute;bottom:10px;border:1px solid #aaa}.btn3icon{width: 40px;height: 40px;background-clip:content-box;}</style>'
+    var btn3style = '<button class="btn3go" onclick="likeVideo();"><span><image class="btn3icon" src="https://ae01.alicdn.com/kf/U1c987f6b116d4655bb4d6c5ffd0e40319.jpg"></image></span></button>'
+    $(head).append(css3style);
+    $(ops).append(btn3style);
+    console.log("%c[CP]正在创造面板。请注意。当你连接到服务器的延迟大于2000ms时，面板就会失效。此bug暂时无法被解决\n您如果无法看到一键三连等元素，请在此输入'retry(cp)'区分大小写",'color:white;background:black;')
+    };
+
+    function retry(func){
+        eval(func+"()");
+    };
+
+    function likeVideo(){
+        csrf = getCookie()
+        avid=xurl.replace(link2,"");
+        avid = bv2av(bvid,"av")
+        apiurl = 'https://api.bilibili.com/x/web-interface/archive/like/triple' + '?aid=' + avid +'&csrf=' +csrf 
+        $.ajax({//指向了Jquery库，b站有Jquery
+            url: apiurl,
+            type: 'POST',
+            xhrFields: {
+            withCredentials: true // 这里设置了withCredentials，带cookie请求。
+            },
+            success: function(data) { //成功
+                //此功能耗资10个硬币
+            console.log("%c[POST]成功三连;客户端没有信息",'color:white;background:black;')
+            alert('三连了,再点是没用的哦。你现在是看不到的呢。要按F5刷新才能看得到的呢')
+            },
+            error: function(err) { //失败
+            console.log("[POST]三连失败")
+            }
+    })
+}
+
+    function getCookie(){
+        console.log("[GC]正在获取Cookie")
+        var cookieName = "bili_jct";
+        var cookieValue = null;//返回cookie的value值
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');//将获得的所有cookie切割成数组
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];//得到某下标的cookies数组
+                if (cookie.substring(0, cookieName.length + 2).trim() == cookieName.trim() + "=") {//如果存在该cookie的话就将cookie的值拿出来
+                    cookieValue = cookie.substring(cookieName.length + 2, cookie.length);
+                    console.log("[GC]Cookie值为" + cookieValue)
+                    return cookieValue
+                    break
+                }
+            }
+        }
+
+}
 } else {
   console.log("现在不是B站呢~")
 }
