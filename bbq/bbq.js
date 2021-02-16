@@ -290,7 +290,7 @@ if (url=="live.bilibili.com"){
     function setFace(){
         var fatherTable = document.getElementsByClassName("more-ops-list");
         var lablehtml = '<li><div class="ops-watch-later van-watchlater" onclick="goViewFace();"><span class="wl-tips" style="display: none;"></span></div>获取封面</li>';
-        $(fatherTable).append(lablehtml);
+        $(fatherTable).prepend(lablehtml);
     }
 
     function goViewFace(){
