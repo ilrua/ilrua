@@ -254,24 +254,7 @@ if (url=="live.bilibili.com"){
          logtable.innerHTML = '<p id="log">' + text + '</p> ';
     }
     
-    setFace()//最后设置一个获取封面的按钮在三个点里
-
-    function setFace(){
-        var fatherTable = document.getElementsByClassName("more-ops-list");
-        var lablehtml = '<li><div class="ops-watch-later van-watchlater" onclick="goViewFace();"><span class="wl-tips" style="display: none;"></span></div>获取封面</li>';
-        $(fatherTable).append(lablehtml);
-    }
-
-    function goViewFace(){
-        $.ajax({ 
-            type:"GET", 
-            url:"https://v1.alapi.cn/api/bbcover?&c="+bvid, 
-            dataType:"json", 
-            success:function(data){ //这里的data就是json信息
-                window.open(data.data.cover); ;//data.data.cover就是封面信息 接着打开封面页面。
-            } 
-            }); 
-    }
+   
     
 
 } else if(url=="t.bilibili.com") {
@@ -295,12 +278,31 @@ if (url=="live.bilibili.com"){
     var btn3style = '<button class="btn3go" onclick="likeVideo();"><span><image class="btn3icon" src="https://ae01.alicdn.com/kf/U1c987f6b116d4655bb4d6c5ffd0e40319.jpg"></image></span></button>'
     $(head).append(css3style);
     $(ops).append(btn3style);
-    console.log("%c[CP]正在创造面板。请注意。当你连接到服务器的延迟大于2000ms时，面板就会失效。此bug暂时无法被解决\n您如果无法看到一键三连等元素，请在此输入'retry(cp)'区分大小写",'color:white;background:black;')
+    console.log("%c[CP]已经创造面板。",'color:white;background:black;')
     };
 
     function retry(func){
         eval(func+"()");
     };
+
+     setFace()//最后设置一个获取封面的按钮在三个点里
+
+    function setFace(){
+        var fatherTable = document.getElementsByClassName("more-ops-list");
+        var lablehtml = '<li><div class="ops-watch-later van-watchlater" onclick="goViewFace();"><span class="wl-tips" style="display: none;"></span></div>获取封面</li>';
+        $(fatherTable).append(lablehtml);
+    }
+
+    function goViewFace(){
+        $.ajax({ 
+            type:"GET", 
+            url:"https://v1.alapi.cn/api/bbcover?&c="+bvid, 
+            dataType:"json", 
+            success:function(data){ //这里的data就是json信息
+                window.open(data.data.cover); ;//data.data.cover就是封面信息 接着打开封面页面。
+            } 
+            }); 
+    }
 
     function likeVideo(){
         csrf = getCookie()
