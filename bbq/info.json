@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
-  "info": "默认的BBQ载入器",
-  "website": "*"
+  "version": "0.0.3",
+  "info": "添加了网页载入后再加载js的功能",
+  "website": "https://github.com/ilrua/BBQ/releases/tag/0.0.3Release"
 }
