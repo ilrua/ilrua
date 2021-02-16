@@ -278,6 +278,8 @@ if (url=="live.bilibili.com"){
     var btn3style = '<button class="btn3go" onclick="likeVideo();"><span><image class="btn3icon" src="https://ae01.alicdn.com/kf/U1c987f6b116d4655bb4d6c5ffd0e40319.jpg"></image></span></button>'
     $(head).append(css3style);
     $(ops).append(btn3style);
+    setFace()
+    //上行设置一个面板
     console.log("%c[CP]已经创造面板。",'color:white;background:black;')
     };
 
@@ -285,7 +287,7 @@ if (url=="live.bilibili.com"){
         eval(func+"()");
     };
 
-     setFace()//最后设置一个获取封面的按钮在三个点里
+
 
     function setFace(){
         var fatherTable = document.getElementsByClassName("more-ops-list");
