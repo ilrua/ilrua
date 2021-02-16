@@ -1,37 +1,19 @@
+/*
+Creator : Redmaple(ilrua)
+Project Name : Be Bilibili Cute(BBQ)
+Programming Language : JavaScript,HTML,CSS,MarkDown.
+Copyright (c) 2021-2077 HyperStudioz.
+
+Someday we will talk all night,Of all that we've been through.
+
+*/
 console.log('%c Im %c BBQ %c V0.0.1','color:#f00;','font-size:20px;','color:white;background:black;')//特效输出
+console.log("[BBQ]BBQ给大家拜年了！新年快乐！万事如意！希望这个小项目能被你们喜欢~")
 console.log("[KERNEL]BBQ已启动 载入核心代码中")
 var chk = "chk"
 var news = "news"
-//更改载入器版本的时候记得全局搜索bbqver
 //---kernel code---
-chkupdt()
-function chkupdt(){
-    var bbqver = 001
-        var url = "https://ilrua.github.io/ilrua/bbq/info.json"//更新地址
-            var request = new XMLHttpRequest();
-            request.open("get", url);/*设置请求方法与路径*/
-            request.send(null);/*不发送数据到服务器*/
-            request.onload = function () {/*XHR对象获取到返回信息后执行*/
-                if (request.status == 200) {/*返回状态为200，即为数据获取成功*/
-                    var json = JSON.parse(request.responseText);
-                    for(var i=0;i<json.length;i++){
-                    	console.log(json[i].name);
-                    }
-                    var json = JSON.parse(request.responseText);
-                    console.log("[UPDATE]已获取更新信息");
-                }
-                    //是的 因为特性 我们只能在这里进行判断。
-                    var version = json.version
-                    var info = json.info
-                    var website = json.website
-                    var locver=version.replace(".","");
-                    if(bbqver < locver){
-                        console.log("[CHK]有新的BBQ载入器更新。键入update(chk)检查")
-                    } else {
-                        console.log("[CHK]您的BB载入器是最新的。请保持")
-                    }
-            }
-}
+
 
 function bv2av(vid,mode){
     //BV2AV函数除判断外的所有代码均来自来自 https://www.zhihu.com/question/381784377/answer/1099438784。（知乎或许不是FW
@@ -75,47 +57,7 @@ function enc(x) {
 }
 
 function update(text){
-    //请注意更改此版本号
-    var bbqver = 001
-    //版本号001
-    //更新
-    //用法update(varb)
-    if(text.toLowerCase() == "chk"){
-    var url = "https://ilrua.github.io/ilrua/bbq/info.json"//更新地址
-            var request = new XMLHttpRequest();
-            request.open("get", url);/*设置请求方法与路径*/
-            request.send(null);/*不发送数据到服务器*/
-            request.onload = function () {/*XHR对象获取到返回信息后执行*/
-                if (request.status == 200) {/*返回状态为200，即为数据获取成功*/
-                    var json = JSON.parse(request.responseText);
-                    for(var i=0;i<json.length;i++){
-                    	console.log(json[i].name);
-                    }
-                    var json = JSON.parse(request.responseText);
-                    console.log("[UPDATE]已获取更新信息");
-                }
-                    //是的 因为特性 我们只能在这里进行判断。
-                    var version = json.version
-                    var info = json.info
-                    var website = json.website
-                    var locver=version.replace(".","");
-                    if(bbqver < locver){
-                        console.log("[CHK]有新的BBQ载入器更新")
-                        console.log("[CHK]当前版本" + bbqver)
-                        console.log("[CHK]新版本: " + version)
-                        console.log("[CHK]载入器更新内容")
-                        console.log(info)
-                        console.log("[CHK]下载地址: " + website)
-                    } else {
-                        console.log("[CHK]您的BB载入器是最新的。请保持")
-                        console.log("[CHK]当前版本" + bbqver)
-                        console.log("[CHK]载入器更新内容")
-                        console.log(info)
-                        console.log("[CHK]下载地址: " + website)
-                    }
-            }
-    } else if(text.toLowerCase() == "news"){
-        var bbqver = 001
+    if(text.toLowerCase() == "news"){
         var url = "https://ilrua.github.io/ilrua/bbq/updt.json"//更新地址
             var request = new XMLHttpRequest();
             request.open("get", url);/*设置请求方法与路径*/
@@ -167,6 +109,7 @@ var link2 = xurl.substring(0,30);
 var url = window.location.hostname//检查域名
 if (url=="live.bilibili.com"){
     console.log("[KERNEL]在直播页面上启动了")
+    console.log("[ALERT]在活动页面的直播间上启动时会出现无法显示面板的情况")
     createPenel()//自动开始建立面板
     function createPenel(){
         console.info("[CP]创建面板中")
@@ -306,10 +249,30 @@ if (url=="live.bilibili.com"){
     })}//live代码块
 
     function log(text){
-         console.info("[日志] " + text)
-         logtable = document.getElementById("log")
-         logtable.innerHTML = '<p id="log">' + text + '</p> '
+         console.info("[日志] " + text);
+         logtable = document.getElementById("log");
+         logtable.innerHTML = '<p id="log">' + text + '</p> ';
     }
+    
+    setFace()//最后设置一个获取封面的按钮在三个点里
+
+    function setFace(){
+        var fatherTable = document.getElementsByClassName("more-ops-list");
+        var lablehtml = '<li><div class="ops-watch-later van-watchlater" onclick="goViewFace();"><span class="wl-tips" style="display: none;"></span></div>获取封面</li>';
+        $(fatherTable).append(lablehtml);
+    }
+
+    function goViewFace(){
+        $.ajax({ 
+            type:"GET", 
+            url:"https://v1.alapi.cn/api/bbcover?&c="+bvid, 
+            dataType:"json", 
+            success:function(data){ //这里的data就是json信息
+                window.open(data.data.cover); ;//data.data.cover就是封面信息 接着打开封面页面。
+            } 
+            }); 
+    }
+    
 
 } else if(url=="t.bilibili.com") {
     console.log("[KERNEL]在动态页面上启动了")
